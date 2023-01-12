@@ -1,54 +1,97 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 * {
     margin: 0;
     padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
-
-#calculadora {
-    margin-top: 50px;
+:root {
+    --light-gray: #d4d4d2;
+    --Eerie-black: #1c1c1c;
+    --dark-liver: #505050;
+    --vivid-gamboge: #ff9500;
+}
+#calculator {
+    margin-top: 40px;
     border: 10px;
-    background-color: #777777;
-    /* #D9E4F1;*/
-    border-radius: 5px;
-}
-
-#display_padding {
-    padding-top: 30px;
-    padding-right: 10px;
     background-color: black;
+    border-radius: 5px;
+    padding: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 5px;
 }
 
+#visor-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 110px;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
 #visor {
-    border: 2px solid black;
-    font-size: 58px;
+    font-size: 60px;
     text-align: right;
     color: white;
     background-color: black;
+    margin-right: 8px;
 }
-
-input {
+td input[type="button"].btn {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+.btn,
+#btn-zero {
     border: 0px;
-    color: black;
-    background-color: #E0E0E7;
     width: 80px;
     height: 80px;
     font-size: 20px;
     outline: none;
+    text-align: center;
+}
+.btn {
+    border-radius: 100%;
 }
 
-input.left_arrow,
-dot,
-plus_mines {
-    font-size: 27px;
-    background-color: #BFC9CA;
-}
-
-input.button_grey {
-    color: black;
-    background-color: #BFC9CA;
-}
-
-input.button_operador {
+#btn-zero {
+    background-color: var(--dark-liver);
     color: white;
-    background-color: #F98C19;
+    width: 100%;
+    border-radius: 40px;
+}
+
+#btn-left-arrow,
+#btn-c,
+#btn-ce {
+    font-size: 27px;
+    background-color: var(--light-gray);
+    color: var(--Eerie-black);
+}
+
+#btn-dot {
+    background-color: var(--dark-liver);
+    color: white;
+    margin-left: 5px;
+}
+#btn-plus-mines,
+.btn-number {
+    color: white;
+    background-color: var(--dark-liver);
+}
+
+.btn-operator {
+    color: white;
+    background-color: var(--vivid-gamboge);
     font-size: 27px;
 }
