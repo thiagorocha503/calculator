@@ -1,13 +1,21 @@
 import React from "react";
-
+type ButtonDecimalProps = {
+    display: string;
+    setDisplay: React.Dispatch<React.SetStateAction<string>>;
+    handleClear: Function;
+    lastKey: string | null;
+};
 export default function ButtonDecimal({
     display,
     setDisplay,
-}: {
-    display: string;
-    setDisplay: React.Dispatch<React.SetStateAction<string>>;
-}) {
+    handleClear,
+    lastKey,
+}: ButtonDecimalProps) {
     const handleDecimal = () => {
+        if (lastKey === "=") {
+            handleClear("0.");
+            return;
+        }
         if (display.includes(".")) {
             return;
         }

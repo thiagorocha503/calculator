@@ -94,8 +94,12 @@ function App() {
                 </div>
                 <div>
                     {buildDigitButton("zero", "0")}
-
-                    <ButtonDecimal display={display} setDisplay={setDisplay} />
+                    <ButtonDecimal
+                        lastKey={lastKey}
+                        display={display}
+                        setDisplay={setDisplay}
+                        handleClear={handleClear}
+                    />
                     <ButtonEquals
                         display={display}
                         lastRightNumber={lastRightNumber}
