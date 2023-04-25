@@ -1,27 +1,24 @@
-import React from "react";
-import { calculate } from "../util";
+import { Dispatch, SetStateAction } from "react";
+import { calculate, isOperator } from "../util";
+import { Operator } from "../Types";
 type ButtonOperatorProp = {
     result: number | null;
-    buttonOperator: "-" | "+" | "/" | "*";
+    value: Operator;
     id: string;
-    currentOperator: "-" | "+" | "/" | "*" | null;
+    operator: Operator | null;
     lastKey: string | null;
     selected: boolean;
     display: string;
     lastRightNumber: number | null;
-    setResult: React.Dispatch<React.SetStateAction<number | null>>;
-    setOperator: React.Dispatch<
-        React.SetStateAction<"-" | "+" | "*" | "/" | null>
-    >;
-    setActiveOperator: React.Dispatch<
-        React.SetStateAction<"-" | "+" | "/" | "*" | null>
-    >;
-    setLastKey: React.Dispatch<React.SetStateAction<string | null>>;
+    setResult: Dispatch<SetStateAction<number | null>>;
+    setOperator: Dispatch<SetStateAction<Operator | null>>;
+    setActiveOperator: React.Dispatch<SetStateAction<Operator | null>>;
+    setLastKey: Dispatch<SetStateAction<string | null>>;
 };
 export default function ButtonOperator({
     id,
-    currentOperator: operator,
-    buttonOperator,
+    operator,
+    value,
     result,
     display,
     selected,
@@ -32,10 +29,7 @@ export default function ButtonOperator({
     setOperator,
     setLastKey,
 }: ButtonOperatorProp) {
-    function isOperator(key: string) {
-        return key === "-" || key === "+" || key === "*" || key === "/";
-    }
-    function handleOperator(op: "-" | "+" | "/" | "*" | null) {
+    function handleOperator(op: Operator | null) {
         setLastKey(op);
         setActiveOperator(op);
         if (lastRightNumber != null) {
@@ -46,7 +40,7 @@ export default function ButtonOperator({
             setOperator(op);
             setResult(() => parseFloat(display));
         } else {
-            if (isOperator(lastKey as string)) {
+            if (isOperator(lastKey)) {
                 setOperator(op);
                 return;
             }
@@ -60,21 +54,15 @@ export default function ButtonOperator({
             setOperator(op);
         }
     }
-    let str: string = buttonOperator;
-    if (buttonOperator === "/") {
-        str = "÷";
-    }
-    if (buttonOperator === "*") {
-        str = "×";
-    }
+
     return (
         <button
             type="button"
             className={selected ? "btn-operator-active " : "btn-operator "}
             id={id}
-            onClick={() => handleOperator(buttonOperator)}
+            onClick={() => handleOperator(value)}
         >
-            {str}
+            {value}
         </button>
     );
 }

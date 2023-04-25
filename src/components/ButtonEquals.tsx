@@ -1,20 +1,18 @@
-import React from "react";
+import { Dispatch, SetStateAction } from "react";
 import { calculate } from "../util";
+import { Operator } from "../Types";
 
 type ButtonEqualsProp = {
-    operator: "-" | "+" | "*" | "/" | null;
+    operator: Operator | null;
     result: number | null;
     display: string;
     last_key: null | string;
     lastRightNumber: number | null;
-
-    setDisplay: React.Dispatch<React.SetStateAction<string>>;
-    setResult: React.Dispatch<React.SetStateAction<number | null>>;
-    setActiveOperator: React.Dispatch<
-        React.SetStateAction<"-" | "+" | "*" | "/" | null>
-    >;
-    setLastKey: React.Dispatch<React.SetStateAction<string | null>>;
-    setLastRightNumber: React.Dispatch<React.SetStateAction<number | null>>;
+    setDisplay: Dispatch<SetStateAction<string>>;
+    setResult: Dispatch<SetStateAction<number | null>>;
+    setActiveOperator: Dispatch<SetStateAction<Operator | null>>;
+    setLastKey: Dispatch<SetStateAction<string | null>>;
+    setLastRightNumber: Dispatch<SetStateAction<number | null>>;
 };
 export default function ButtonEquals({
     operator,

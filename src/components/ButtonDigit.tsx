@@ -1,20 +1,19 @@
-import React from "react";
+import { Dispatch, SetStateAction } from "react";
+import { Digit, Operator } from "../Types";
+import { isOperator } from "../util";
 
 type ButtonDigitProp = {
     id: string;
-    digit:  "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-    
+    value: Digit;
     display: string;
     last_key: string | null;
-    setActiveOperator: React.Dispatch<
-        React.SetStateAction<"-" | "+" | "*" | "/" | null>
-    >;
-    setDisplay: React.Dispatch<React.SetStateAction<string>>;
-    setLastKey: React.Dispatch<React.SetStateAction<string | null>>;
+    setActiveOperator: Dispatch<SetStateAction<Operator | null>>;
+    setDisplay: Dispatch<SetStateAction<string>>;
+    setLastKey: Dispatch<SetStateAction<string | null>>;
 };
 export default function ButtonDigit({
     id,
-    digit,
+    value: digit,
     last_key,
 
     display,
@@ -22,9 +21,7 @@ export default function ButtonDigit({
     setActiveOperator,
     setDisplay,
 }: ButtonDigitProp) {
-    const handleNumberButton = (
-        number: "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-    ) => {
+    const handleNumberButton = (number: Digit) => {
         if (display.length > 13) {
             return;
         }
@@ -33,7 +30,7 @@ export default function ButtonDigit({
         }
         // new number after operator
         setLastKey(number.toString());
-        if (/[-+/*]/.test(last_key ?? "")) {
+        if (isOperator(last_key)) {
             setDisplay(number);
             setActiveOperator(null);
             return;

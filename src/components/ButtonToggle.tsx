@@ -1,10 +1,13 @@
-import React from "react";
+import { Dispatch, SetStateAction } from "react";
 
 type ButtonToggleProp = {
     display: string;
-    setDisplay: React.Dispatch<React.SetStateAction<string>>;
+    setDisplay: Dispatch<SetStateAction<string>>;
 };
-export default function ButtonToggle({ display, setDisplay }: ButtonToggleProp) {
+export default function ButtonToggle({
+    display,
+    setDisplay,
+}: ButtonToggleProp) {
     const handleReverter = () => {
         if (display === "0") {
             return;

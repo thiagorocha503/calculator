@@ -7,18 +7,15 @@ import ButtonToggle from "./components/ButtonToggle";
 import ButtonClear from "./components/ButtonClear";
 import ButtonOperator from "./components/ButtonOperator";
 import ButtonCancelEntry from "./components/ButtonCancelEntry";
+import { Digit, Operator } from "./Types";
 
 function App() {
-    const [operator, setOperator] = useState<"-" | "+" | "*" | "/" | null>(
-        null
-    );
+    const [operator, setOperator] = useState<Operator | null>(null);
     const [display, setDisplay] = useState<string>("0");
     const [result, setResult] = useState<number | null>(null);
     const [lastKey, setLastKey] = useState<string | null>(null); // last key(digit, operator and dot)
     const [lastRightNumber, setLastRightNumber] = useState<number | null>(null); // right operand  of last operation
-    const [activeOperator, setActiveOperator] = useState<
-        "+" | "-" | "*" | "/" | null
-    >(null);
+    const [activeOperator, setActiveOperator] = useState<Operator | null>(null);
 
     useEffect(() => {
         console.log(
@@ -35,20 +32,16 @@ function App() {
         setActiveOperator(null);
     };
 
-    function buildOperator(
-        id: string,
-
-        button_operator: "-" | "+" | "*" | "/"
-    ) {
+    function buildOperator(id: string, value: Operator) {
         return (
             <ButtonOperator
                 id={id}
-                buttonOperator={button_operator}
-                currentOperator={operator}
+                value={value}
+                operator={operator}
                 display={display}
                 lastKey={lastKey}
                 result={result}
-                selected={activeOperator === button_operator}
+                selected={activeOperator === value}
                 lastRightNumber={lastRightNumber}
                 setResult={setResult}
                 setOperator={setOperator}
@@ -57,14 +50,11 @@ function App() {
             />
         );
     }
-    function buildDigitButton(
-        id: string,
-        digit: "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-    ) {
+    function buildDigitButton(id: string, digit: Digit) {
         return (
             <ButtonDigit
                 id={id}
-                digit={digit}
+                value={digit}
                 display={display}
                 last_key={lastKey}
                 setActiveOperator={setActiveOperator}
@@ -81,13 +71,13 @@ function App() {
                     <ButtonClear handleClear={handleClear} />
                     <ButtonCancelEntry setDisplay={setDisplay} />
                     <ButtonToggle display={display} setDisplay={setDisplay} />
-                    {buildOperator("divide", "/")}
+                    {buildOperator("divide", "÷")}
                 </div>
                 <div>
                     {buildDigitButton("seven", "7")}
                     {buildDigitButton("eight", "8")}
                     {buildDigitButton("nine", "9")}
-                    {buildOperator("multiply", "*")}
+                    {buildOperator("multiply", "×")}
                 </div>
                 <div>
                     {buildDigitButton("four", "4")}
@@ -102,15 +92,8 @@ function App() {
                     {buildOperator("add", "+")}
                 </div>
                 <div>
-                    <ButtonDigit
-                        id="zero"
-                        digit="0"
-                        display={display}
-                        last_key={lastKey}
-                        setActiveOperator={setActiveOperator}
-                        setDisplay={setDisplay}
-                        setLastKey={setLastKey}
-                    />
+                    {buildDigitButton("zero", "0")}
+
                     <ButtonDecimal display={display} setDisplay={setDisplay} />
                     <ButtonEquals
                         display={display}
