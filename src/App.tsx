@@ -23,8 +23,8 @@ function App() {
         );
     }, [display, operator, result, lastKey]);
 
-    const handleClear = () => {
-        setDisplay("0");
+    const handleClear = (display: string = "0") => {
+        setDisplay(display);
         setResult(0);
         setOperator(null);
         setLastKey(null);
@@ -56,10 +56,11 @@ function App() {
                 id={id}
                 value={digit}
                 display={display}
-                last_key={lastKey}
+                lastKey={lastKey}
                 setActiveOperator={setActiveOperator}
                 setDisplay={setDisplay}
                 setLastKey={setLastKey}
+                handleClear={handleClear}
             />
         );
     }

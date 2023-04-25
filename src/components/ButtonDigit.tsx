@@ -6,31 +6,34 @@ type ButtonDigitProp = {
     id: string;
     value: Digit;
     display: string;
-    last_key: string | null;
+    lastKey: string | null;
     setActiveOperator: Dispatch<SetStateAction<Operator | null>>;
     setDisplay: Dispatch<SetStateAction<string>>;
     setLastKey: Dispatch<SetStateAction<string | null>>;
+    handleClear: Function
 };
 export default function ButtonDigit({
     id,
-    value: digit,
-    last_key,
-
+    value,
+    lastKey,
     display,
     setLastKey,
     setActiveOperator,
     setDisplay,
+    handleClear
 }: ButtonDigitProp) {
     const handleNumberButton = (number: Digit) => {
-        if (display.length > 13) {
+        if (display.length > 13 || (number === "0" && display === "0")) {
             return;
         }
-        if (number === "0" && display === "0") {
+        // number after equals click
+        if (lastKey === "=") {
+            handleClear(number);
             return;
         }
         // new number after operator
         setLastKey(number.toString());
-        if (isOperator(last_key)) {
+        if (isOperator(lastKey)) {
             setDisplay(number);
             setActiveOperator(null);
             return;
@@ -46,9 +49,9 @@ export default function ButtonDigit({
             type="button"
             className="btn-digit"
             id={id}
-            onClick={() => handleNumberButton(digit)}
+            onClick={() => handleNumberButton(value)}
         >
-            {digit}
+            {value}
         </button>
     );
 }
