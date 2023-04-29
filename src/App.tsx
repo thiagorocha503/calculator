@@ -9,6 +9,10 @@ import ButtonOperator from "./components/ButtonOperator";
 import ButtonCancelEntry from "./components/ButtonCancelEntry";
 import { Operator } from "./types/Operator";
 import { Digit } from "./types/Digit";
+const EQUALS_REGEX = /(Enter)|=/;
+const NUMBER_REGEX = /\d/;
+const DECIMAL_REGEX = /\.|,/;
+const SUM_OR_MINUS = /\+|-/;
 
 function App() {
     const [operator, setOperator] = useState<Operator | null>(null);
@@ -21,6 +25,45 @@ function App() {
     function isOperator(key: string | null) {
         return key === "-" || key === "+" || key === "×" || key === "÷";
     }
+    // listener
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            const key = e.key;
+            if (DECIMAL_REGEX.test(key)) {
+                handleDecimal();
+                return;
+            }
+            if (EQUALS_REGEX.test(key)) {
+                handleEquals();
+                return;
+            }
+            if (NUMBER_REGEX.test(key)) {
+                handleNumberButton(key as Digit);
+                return;
+            }
+            if (SUM_OR_MINUS.test(key)) {
+                handleOperator(key as Operator);
+            }
+            if (key === "/") {
+                handleOperator("÷");
+                return;
+            }
+            if (key === "*") {
+                handleOperator("×");
+                return;
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    });
+    // prevent Ente key click one button
+    const keyPreventDefault = (e: React.KeyboardEvent): void => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+        }
+    };
 
     useEffect(() => {
         console.log(
@@ -78,7 +121,7 @@ function App() {
     const handleEquals = () => {
         setActiveOperator(null);
 
-        if (lastKey === "=") {
+        if (lastKey === "=" && operator != null) {
             const d: number = calculate(
                 result as number,
                 operator,
@@ -145,14 +188,20 @@ function App() {
             <ButtonOperator
                 id={id}
                 operator={value}
-                onClick={handleOperator}
                 selected={activeOperator === value}
+                onClick={handleOperator}
+                preventDefault={keyPreventDefault}
             />
         );
     }
     function buildDigitButton(id: string, digit: Digit) {
         return (
-            <ButtonDigit id={id} number={digit} onClick={handleNumberButton} />
+            <ButtonDigit
+                id={id}
+                number={digit}
+                onClick={handleNumberButton}
+                preventDefault={keyPreventDefault}
+            />
         );
     }
     const handleCE = () => {
@@ -163,9 +212,18 @@ function App() {
             <Display text={display} />
             <div id="keyboard">
                 <div>
-                    <ButtonClear handleClear={handleClear} />
-                    <ButtonCancelEntry onClick={handleCE} />
-                    <ButtonToggle onClick={handleInvert} />
+                    <ButtonClear
+                        handleClear={handleClear}
+                        preventDefault={keyPreventDefault}
+                    />
+                    <ButtonCancelEntry
+                        onClick={handleCE}
+                        preventDefault={keyPreventDefault}
+                    />
+                    <ButtonToggle
+                        onClick={handleInvert}
+                        onKeyEvent={keyPreventDefault}
+                    />
                     {buildOperator("divide", "÷")}
                 </div>
                 <div>
@@ -188,8 +246,14 @@ function App() {
                 </div>
                 <div>
                     {buildDigitButton("zero", "0")}
-                    <ButtonDecimal onClick={handleDecimal} />
-                    <ButtonEquals onClick={handleEquals} />
+                    <ButtonDecimal
+                        onClick={handleDecimal}
+                        onKeyEvent={keyPreventDefault}
+                    />
+                    <ButtonEquals
+                        onClick={handleEquals}
+                        preventDefault={keyPreventDefault}
+                    />
                 </div>
             </div>
         </div>

@@ -5,12 +5,14 @@ type ButtonOperatorProp = {
     id: string;
     selected: boolean;
     onClick: (e: Operator) => void;
+    preventDefault: (e:React.KeyboardEvent)=> void;
 };
 export default function ButtonOperator({
     id,
     operator,
-    onClick,
     selected,
+    onClick,
+    preventDefault
 }: ButtonOperatorProp) {
     return (
         <button
@@ -18,6 +20,8 @@ export default function ButtonOperator({
             className={"btn-operator " + (selected ? "active" : "")}
             id={id}
             onClick={() => onClick(operator)}
+            onKeyDown={(e) => preventDefault(e)}
+            onKeyUp={(e) => preventDefault(e)}
         >
             {operator}
         </button>
