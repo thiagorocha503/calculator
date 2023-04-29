@@ -10,7 +10,6 @@ import ButtonCancelEntry from "./components/ButtonCancelEntry";
 import { Operator } from "./types/Operator";
 import { Digit } from "./types/Digit";
 
-
 function App() {
     const [operator, setOperator] = useState<Operator | null>(null);
     const [display, setDisplay] = useState<string>("0");
@@ -41,12 +40,7 @@ function App() {
             setResult(() => parseFloat(display));
         } else {
             if (isOperator(lastKey as string)) {
-                if (lastKey === "-") {
-                    setOperator(op);
-                } else {
-                    if (op === "-") {
-                    }
-                }
+                setOperator(op);
                 return;
             }
             const a = calculate(
