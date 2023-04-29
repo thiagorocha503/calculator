@@ -1,4 +1,5 @@
-import { Operator } from "../Types";
+import { Operator } from "../types/Operator";
+
 type ButtonOperatorProp = {
     operator: Operator;
     id: string;
@@ -14,7 +15,7 @@ export default function ButtonOperator({
     return (
         <button
             type="button"
-            className={ "btn-operator " + (selected ? "active" : "")}
+            className={"btn-operator " + (selected ? "active" : "")}
             id={id}
             onClick={() => onClick(operator)}
         >

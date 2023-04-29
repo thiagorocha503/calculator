@@ -7,7 +7,9 @@ import ButtonToggle from "./components/ButtonToggle";
 import ButtonClear from "./components/ButtonClear";
 import ButtonOperator from "./components/ButtonOperator";
 import ButtonCancelEntry from "./components/ButtonCancelEntry";
-import { Digit, Operator } from "./Types";
+import { Operator } from "./types/Operator";
+import { Digit } from "./types/Digit";
+
 
 function App() {
     const [operator, setOperator] = useState<Operator | null>(null);

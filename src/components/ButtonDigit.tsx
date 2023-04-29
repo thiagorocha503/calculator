@@ -1,17 +1,11 @@
-import { Digit } from "../Types";
-
+import { Digit } from "../types/Digit";
 
 type ButtonDigitProp = {
     id: string;
     number: Digit;
-    onClick: (num: Digit)=>void;
+    onClick: (num: Digit) => void;
 };
-export default function ButtonDigit({
-    id,
-    number,
-    onClick
-}: ButtonDigitProp) {
-    
+export default function ButtonDigit({ id, number, onClick }: ButtonDigitProp) {
     return (
         <button
             type="button"
