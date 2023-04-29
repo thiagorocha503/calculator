@@ -1,102 +1,102 @@
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 :root {
-  --light-gray: #d4d4d2;
-  --eerie-black: #1c1c1c;
-  --dark-liver: #505050;
-  --vivid-gamboge: #ff9500;
+    --light-gray: #d4d4d2;
+    --eerie-black: #1c1c1c;
+    --dark-liver: #505050;
+    --vivid-gamboge: #ff9500;
 }
 
 body,
 html {
-  height: 100vh;
-  background-color: grey;
+    height: 100vh;
+    background-color: grey;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #app {
-  background-color: black;
-  padding: 8px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
+    background-color: black;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 #display {
-  width: 305px;
-  font-size: 40px;
-  height: 110px;
-  color: #fff;
-  position: relative;
-  display: flex;
-  overflow-x: auto;
-  flex-direction: row-reverse;
-  align-items: flex-end;
-  overflow-x: auto;
-  padding-right: 10px;
+    width: 305px;
+    font-size: 40px;
+    height: 110px;
+    color: #fff;
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    overflow-x: auto;
+    padding-right: 10px;
 }
 
 #keyboard {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  width: 305px;
-  height: 375px;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 305px;
+    height: 375px;
+    justify-content: space-between;
 }
 
 #keyboard div {
-  display: flex;
-  flex-grow: 1;
-  height: 70px;
-  align-items: center;
-  justify-content: space-around;
+    display: flex;
+    flex-grow: 1;
+    height: 70px;
+    align-items: center;
+    justify-content: space-around;
 }
 
 #zero {
-  width: 140px;
-  text-align: left;
-  padding-left: 30px;
+    width: 140px;
+    text-align: left;
+    padding-left: 30px;
 }
 
 button[type="button"] {
-  cursor: pointer;
-  height: 70px;
-  width: 70px;
-  border-radius: 100px;
-  font-size: 24px;
-  border: 1px solid black;
+    cursor: pointer;
+    height: 70px;
+    width: 70px;
+    border-radius: 100px;
+    font-size: 24px;
+    border: 1px solid black;
 }
 
 .btn-action {
-  background-color: var(--light-gray);
-  border: 1px solid var(--light-gray);
-  color: black;
+    background-color: var(--light-gray);
+    border: 1px solid var(--light-gray);
+    color: black;
 }
 
 .btn-digit {
-  border: 1px solid var(--eerie-black);
-  background-color: var(--eerie-black);
-  color: #fff;
+    border: 1px solid var(--eerie-black);
+    background-color: var(--eerie-black);
+    color: #fff;
 }
 
 .btn-operator {
-  background-color: var(--vivid-gamboge);
-  border: 1px solid var(--vivid-gamboge);
-  color: white;
+    background-color: var(--vivid-gamboge);
+    border: 1px solid var(--vivid-gamboge);
+    color: white;
 }
 
-.btn-operator-active {
-  background-color: white;
-  border: 1px solid var(--vivid-gamboge);
-  color: var(--vivid-gamboge);
+.active {
+    background-color: white;
+    border: 1px solid var(--vivid-gamboge);
+    color: var(--vivid-gamboge);
 }

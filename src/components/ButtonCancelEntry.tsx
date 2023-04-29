@@ -1,14 +1,14 @@
 type ButtonCancelEntryProps = {
-    setDisplay: React.Dispatch<React.SetStateAction<string>>;
+    onClick: () => void
 };
 export default function ButtonCancelEntry({
-    setDisplay,
+    onClick,
 }: ButtonCancelEntryProps) {
     return (
         <button
             className="btn-action"
             type="button"
-            onClick={() => setDisplay("0")}
+            onClick={() => onClick()}
         >
             CE
         </button>

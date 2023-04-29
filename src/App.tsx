@@ -15,7 +15,11 @@ function App() {
     const [result, setResult] = useState<number | null>(null);
     const [lastKey, setLastKey] = useState<string | null>(null); // last key(digit, operator and dot)
     const [lastRightNumber, setLastRightNumber] = useState<number | null>(null); // right operand  of last operation
-    const [activeOperator, setActiveOperator] = useState<Operator | null>(null);
+    const [activeOperator, setActiveOperator] = useState<Operator | null>(null); // active math operation
+
+    function isOperator(key: string | null) {
+        return key === "-" || key === "+" || key === "×" || key === "÷";
+    }
 
     useEffect(() => {
         console.log(
@@ -23,8 +27,116 @@ function App() {
         );
     }, [display, operator, result, lastKey]);
 
-    const handleClear = (display: string = "0") => {
-        setDisplay(display);
+    function handleOperator(op: Operator | null) {
+        setLastKey(op);
+        setActiveOperator(op);
+        if (lastRightNumber != null) {
+            setOperator(op);
+            return;
+        }
+        if (operator === null) {
+            setOperator(op);
+            setResult(() => parseFloat(display));
+        } else {
+            if (isOperator(lastKey as string)) {
+                if (lastKey === "-") {
+                    setOperator(op);
+                } else {
+                    if (op === "-") {
+                    }
+                }
+                return;
+            }
+            const a = calculate(
+                result as number,
+                operator,
+                parseFloat(display)
+            ) as number;
+            setResult(a);
+            setOperator(op);
+        }
+    }
+    const handleNumberButton = (number: Digit) => {
+        if (display.length > 13 || (number === "0" && display === "0")) {
+            return;
+        }
+        // number after equals
+        if (lastKey === "=") {
+            handleClear(number);
+            return;
+        }
+        // new number after operator, clear display
+        setLastKey(number.toString());
+        if (isOperator(lastKey)) {
+            setDisplay(number);
+            setActiveOperator(null);
+            return;
+        }
+        if (display === "0") {
+            setDisplay(number);
+        } else {
+            setDisplay((d) => `${d}${number}`);
+        }
+    };
+
+    const handleEquals = () => {
+        setActiveOperator(null);
+
+        if (lastKey === "=") {
+            const d: number = calculate(
+                result as number,
+                operator,
+                lastRightNumber as number
+            ) as number;
+            setDisplay(d.toString());
+            setResult(d);
+            return;
+        }
+        if (operator != null && result != null) {
+            const r: number = calculate(
+                result,
+                operator,
+                parseFloat(display)
+            ) as number;
+            setLastRightNumber(parseFloat(display));
+            setResult(r);
+            setDisplay(r.toString());
+        }
+        setLastKey("=");
+    };
+    function calculate(num1: number, op: Operator | null, num2: number) {
+        if (op === "+") {
+            return num1 + num2;
+        } else if (op === "-") {
+            return num1 - num2;
+        } else if (op === "×") {
+            return num1 * num2;
+        } else if (op === "÷") {
+            return num1 / num2;
+        }
+    }
+    const handleInvert = () => {
+        if (display === "0") {
+            return;
+        }
+        if (display.includes("-")) {
+            setDisplay((display) => display.substring(1, display.length));
+        } else {
+            setDisplay((display) => `-${display}`);
+        }
+    };
+    const handleDecimal = () => {
+        if (lastKey === "=") {
+            handleClear("0.");
+            return;
+        }
+        if (display.includes(".")) {
+            return;
+        }
+        setDisplay((d) => d + ".");
+    };
+    const handleClear = (new_display: string = "0") => {
+        setDisplay(new_display);
         setResult(0);
         setOperator(null);
         setLastKey(null);
@@ -36,42 +148,28 @@ function App() {
         return (
             <ButtonOperator
                 id={id}
-                value={value}
-                operator={operator}
-                display={display}
-                lastKey={lastKey}
-                result={result}
+                operator={value}
+                onClick={handleOperator}
                 selected={activeOperator === value}
-                lastRightNumber={lastRightNumber}
-                setResult={setResult}
-                setOperator={setOperator}
-                setLastKey={setLastKey}
-                setActiveOperator={setActiveOperator}
             />
         );
     }
     function buildDigitButton(id: string, digit: Digit) {
         return (
-            <ButtonDigit
-                id={id}
-                value={digit}
-                display={display}
-                lastKey={lastKey}
-                setActiveOperator={setActiveOperator}
-                setDisplay={setDisplay}
-                setLastKey={setLastKey}
-                handleClear={handleClear}
-            />
+            <ButtonDigit id={id} number={digit} onClick={handleNumberButton} />
         );
     }
+    const handleCE = () => {
+        setDisplay("0");
+    };
     return (
         <div id="app">
             <Display text={display} />
             <div id="keyboard">
                 <div>
                     <ButtonClear handleClear={handleClear} />
-                    <ButtonCancelEntry setDisplay={setDisplay} />
-                    <ButtonToggle display={display} setDisplay={setDisplay} />
+                    <ButtonCancelEntry onClick={handleCE} />
+                    <ButtonToggle onClick={handleInvert} />
                     {buildOperator("divide", "÷")}
                 </div>
                 <div>
@@ -94,24 +192,8 @@ function App() {
                 </div>
                 <div>
                     {buildDigitButton("zero", "0")}
-                    <ButtonDecimal
-                        lastKey={lastKey}
-                        display={display}
-                        setDisplay={setDisplay}
-                        handleClear={handleClear}
-                    />
-                    <ButtonEquals
-                        display={display}
-                        lastRightNumber={lastRightNumber}
-                        last_key={lastKey}
-                        operator={operator}
-                        result={result}
-                        setActiveOperator={setActiveOperator}
-                        setDisplay={setDisplay}
-                        setLastKey={setLastKey}
-                        setLastRightNumber={setLastRightNumber}
-                        setResult={setResult}
-                    />
+                    <ButtonDecimal onClick={handleDecimal} />
+                    <ButtonEquals onClick={handleEquals} />
                 </div>
             </div>
         </div>
